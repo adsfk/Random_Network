@@ -5,10 +5,25 @@
 
 `networkx`, `numpy`, `itertools`, `random` 라이브러리를 기반으로 작동함.
 ## 사용 방법 (Usage Example)
+클래스 가져오기
+```python
+!git clone https://github.com/adsfk/Random_Network.git
+%cd ./Random_Network/
+```
 ```python
 import networkx as nx
-from random_graph_pkg.random_graph_analysis import *
-RGA = RandomGraphAnalysis(G)
+from random_graph_analysis import *
+```
+정치도서구매그래프(polbooks.gml)분석 예시
+```python
+G = nx.read_gml('polbooks.gml')
+analyser = RandomGraphAnalysis(G) # 클래스 초기화
+```
+```python
+chunglu_ensemble = analyser.create_random_graph_ensemble("chunglu", 100) # Chung-Lu Model 앙상블 생성(100개)
+
+original_dist = analyser.degree_distribution(G) # 원본 그래프의 차수 분포
+chunglu_degree_dists = analyser.ensemble_degree_distributions(chunglu_ensemble) # 앙상블의 차수분포
 ```
 ## 주요 기능
 ### 무작위 그래프 생성 모델
