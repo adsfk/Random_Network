@@ -62,4 +62,18 @@ self.random_graph_list() # 클래스를 이용해 생성할 수 있는 무작위
 - 선호적 연결 기반 성장 모델로 새로운 노드는 기존 노드의 차수에 비례하여 연결 → Scale-free 네트워크 생성
 - set_init_BA(self): BA 그래프 생성에 사용될 초기 노드수와 새로 추가하는 노드가 가지고 올 미연결 엣지수를 계산
 - choose_target_node(self, existing_nodes:list, G:nx.Graph): 새로 들어온 노드가 엣지를 연결할 노드를 고름(그래프의 현재 노드 리스트와 그래프 자체를 매개변수로 받음)
-- create_BA_graph(self): 
+- create_BA_graph(self): BA 그래프 생성, 노드 특성은 유지되지 않음 
+- 예외 처리: 노드/엣지 수가 0이 아님을 확인
+## 앙상블 생성 및 분석 함수 설명
+```python
+create_random_graph_ensemble(self, random_graph, num_simulations)
+```
+선택한 무작위 그래프 모델("ER", "configuration", "chunglu", "BA")을 지정된 횟수(num_simulations)만큼 반복 생성하여, 무작위 그래프들의 리스트(앙상블)를 반환
+```python
+degree_distribution(self, graph=None)
+```
+그래프를 입력 받아 해당 그래프의 차수 분포 array를 반환
+```python
+ensemble_degree_distributions(self, ensemble_graphs:list)
+```
+입력받은 앙상블 그래프 리스트에 대해 각각 degree_distribution을 호출하고, 그 결과인 차수 분포 array의 리스트를 반환
