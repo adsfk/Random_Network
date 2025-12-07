@@ -1,7 +1,6 @@
 # Random Graph Analysis
 
-다양한 무작위 그래프 생성 모델(ER, Configuration, Chung-Lu, BA)을 기반 그래프의 속성을 바탕으로 생성하고, 
-각 그래프 모델의 차수 분포 등을 비교·분석할 수 있도록 설계된 Python 클래스.
+다양한 무작위 그래프 생성 모델(ER, Configuration, Chung-Lu, BA)을 기반(원본) 네트워크의 속성을 바탕으로 생성하고, 각 그래프 모델의 차수 분포 등을 비교·분석할 수 있도록 설계된 Python 클래스.
 
 `networkx`, `numpy`, `itertools`, `random` 라이브러리를 기반으로 작동함.
 ## 사용 방법 (Usage Example)
@@ -14,7 +13,7 @@
 import networkx as nx
 from random_graph_analysis import *
 ```
-정치도서구매그래프(polbooks.gml) 사용 예시
+정치도서구매 네트워크(polbooks.gml) 사용 예시
 ```python
 G = nx.read_gml('polbooks.gml')
 analyser = RandomGraphAnalysis(G) # 클래스 초기화
@@ -26,17 +25,21 @@ chunglu_ensemble = analyser.create_random_graph_ensemble("chunglu", 100) # Chung
 original_dist = analyser.degree_distribution(G) # 원본 그래프의 차수 분포
 chunglu_degree_dists = analyser.ensemble_degree_distributions(chunglu_ensemble) # 앙상블의 차수분포
 ```
+
 ## 주요 기능
 ### 무작위 그래프 생성 모델
 - ER, Configuration, Chung-Lu, BA
 ### Ensemble 생성
-선택한 무작위 그래프 모델로 여러 개의 랜덤 그래프 한 번에 생성 가능
-'num_simulations'만큼 생성해 통계 분석에 활용 가능
+- 선택한 무작위 그래프 모델로 여러 개의 랜덤 그래프 한 번에 생성 가능
+- 'num_simulations'만큼 생성해 통계 분석에 활용 가능
 ### 차수 분포 계산
-차수 분포 계산, Ensemble 그래프 차수 분포 전체 반환
+- 차수 분포 계산, Ensemble 그래프 차수 분포 전체 반환
+## 클래스 구조
+- __init__(self, G: nx.Graph): 클래스가 초기화될 때 실행되며, 입력으로 받은 networkx.Graph 객체 G의 핵심 속성들을 클래스 속성(Attribute)으로 저장
+- set_init_ER(self): ER) 그래프 생성에 필요한 엣지 연결 확률 $p$를 계산하여 self.p에 저장
 ### 구현 함수 및 모델 설명
 #### 1. ER
-ER 모델은 각 노드 쌍이 확률 p로 독립적으로 연결
+- 각 노드 쌍이 확률 p로 독립적으로 연결
 선택된 확률에 따라 엣지가 랜덤하게 생성됨
 set_init_ER(): 입력 그래프의 평균 차수 기반으로 p 계산
 create_ERnp_graph(): 확률적 방식으로 모든 노드 쌍 연결 여부 판단
