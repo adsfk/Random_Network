@@ -4,7 +4,7 @@ import random
 import itertools
 
 class RandomGraphAnalysis():
-  def __init__(self, G):
+  def __init__(self, G: nx.Graph):
     # 원본 그래프와 기본적으로 사용되는 속성을 클래스 attribute로 생성
     self.Graph = G
     self.nodes = G.nodes(data=True)
@@ -16,7 +16,6 @@ class RandomGraphAnalysis():
 
     # ER 그래프에서 사용될 기본 엣지 연결 확률 생성
     self.set_init_ER()
-
     # BA 그래프에서 사용될 기본 초기 노드수와 새로운 노드가 가지고 올 미연결 링크수 속성 생성
     self.set_init_BA()
 
@@ -176,6 +175,12 @@ class RandomGraphAnalysis():
   이하 담당자: 이해정
   '''
   def set_init_BA(self):
+    '''
+    BA graph 생성에 사용될 초기 노드수와 새로 추가하는 노드가 가지고 올 미연결 엣지수를 계산하는 함수
+
+    예외처리: 빈 그래프 확인
+    '''
+
     if self.number_of_edges == 0 or self.number_of_nodes == 0:
       raise ValueError("노드와 엣지수가 0이 아닌 그래프를 넣어주세요")
 
@@ -192,7 +197,12 @@ class RandomGraphAnalysis():
       self.m = 2
 
   # 연결 노드 선택 함수 정의
-  def choose_target_node(self, existing_nodes, G):
+  def choose_target_node(self, existing_nodes:list, G:nx.Graph):
+    '''
+    BA graph 생성 과정 중 새로 들어온 노드가 엣지를 연결할 노드를 고르는 함수
+    그래프의 현재 노드 리스트와 그래프 자체를 매개변수로 받음
+    '''
+
     # Preferential attachment: probability * degree
     degrees = [d for _, d in G.degree()] # 존재하는 노드들의 이웃수 리스트
     total_degree = sum(degrees)
@@ -216,6 +226,10 @@ class RandomGraphAnalysis():
         return existing_nodes[i]
 
   def create_BA_graph(self):
+    '''
+    BA graph 생성 함수 (노드 특성은 유지되지 않음)
+    '''
+
     G = nx.complete_graph(self.m0) # fully connected Graph w/ m0 nodes
 
     n_total = self.number_of_nodes  # desired total number of nodes
@@ -278,9 +292,9 @@ class RandomGraphAnalysis():
 
     return degree_distribution
 
-  def ensemble_degree_distributions(self, ensemble_graphs):
+  def ensemble_degree_distributions(self, ensemble_graphs:list):
     '''
-    ensemble된 그래프들을 입력 받아 2차원 차수 분포 array를 반환하는 함수
+    ensemble 그래프 리스트를 입력 받아 차수 분포 array들의 리스트를 반환하는 함수
     '''
 
     degree_dists = []
