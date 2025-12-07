@@ -37,13 +37,11 @@ chunglu_degree_dists = analyser.ensemble_degree_distributions(chunglu_ensemble) 
 ## 클래스 구조
 ```python
 __init__(self, G: nx.Graph) # 클래스가 초기화될 때 실행되며, 입력으로 받은 networkx.Graph 객체 G의 핵심 속성들을 클래스 속성(Attribute)으로 저장
-```
-```python
 set_init_ER(self): ER) # 그래프 생성에 필요한 엣지 연결 확률 $p$를 계산하여 self.p에 저장
-```
-```python
+
 self.random_graph_list() # 클래스를 이용해 생성할 수 있는 무작위 그래프 종류를 출력
 ```
+
 ## 구현 함수 및 모델 설명
 ### 1. ER
 - 각 노드 쌍이 확률 p로 독립적으로 연결
