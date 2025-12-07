@@ -5,11 +5,11 @@
 
 `networkx`, `numpy`, `itertools`, `random` 라이브러리를 기반으로 작동함.
 ## 사용 방법 (Usage Example)
-'''python
+```python
 import networkx as nx
 from random_graph_pkg.random_graph_analysis import *
 RGA = RandomGraphAnalysis(G)
-'''
+```
 ## 주요 기능
 ### 무작위 그래프 생성 모델
 - ER, Configuration, Chung-Lu, BA
