@@ -14,11 +14,12 @@
 import networkx as nx
 from random_graph_analysis import *
 ```
-정치도서구매그래프(polbooks.gml)분석 예시
+정치도서구매그래프(polbooks.gml) 사용 예시
 ```python
 G = nx.read_gml('polbooks.gml')
 analyser = RandomGraphAnalysis(G) # 클래스 초기화
 ```
+앙상블 생성 및 차수 분포 분석
 ```python
 chunglu_ensemble = analyser.create_random_graph_ensemble("chunglu", 100) # Chung-Lu Model 앙상블 생성(100개)
 
