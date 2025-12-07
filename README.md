@@ -36,37 +36,34 @@ chunglu_degree_dists = analyser.ensemble_degree_distributions(chunglu_ensemble) 
 - 차수 분포 계산, Ensemble 그래프 차수 분포 전체 반환
 ## 클래스 구조
 ```python
-__init__(self, G: nx.Graph)
+__init__(self, G: nx.Graph) # 클래스가 초기화될 때 실행되며, 입력으로 받은 networkx.Graph 객체 G의 핵심 속성들을 클래스 속성(Attribute)으로 저장
 ```
-- 클래스가 초기화될 때 실행되며, 입력으로 받은 networkx.Graph 객체 G의 핵심 속성들을 클래스 속성(Attribute)으로 저장
 ```python
-set_init_ER(self): ER)
+set_init_ER(self): ER) # 그래프 생성에 필요한 엣지 연결 확률 $p$를 계산하여 self.p에 저장
 ```
-그래프 생성에 필요한 엣지 연결 확률 $p$를 계산하여 self.p에 저장
 ```python
-self.random_graph_list()
+self.random_graph_list() # 클래스를 이용해 생성할 수 있는 무작위 그래프 종류를 출력
 ```
-- 클래스를 이용해 생성할 수 있는 무작위 그래프 종류를 출력
-### 구현 함수 및 모델 설명
-#### 1. ER
+## 구현 함수 및 모델 설명
+### 1. ER
 - 각 노드 쌍이 확률 p로 독립적으로 연결
 선택된 확률에 따라 엣지가 랜덤하게 생성됨
 set_init_ER(): 입력 그래프의 평균 차수 기반으로 p 계산
 create_ERnp_graph(): 확률적 방식으로 모든 노드 쌍 연결 여부 판단
 예외 처리: p가 0 < p < 1 범위인지 확인, 노드/엣지 수가 0인 경우 오류 발생
-#### 2. Configuration
+### 2. Configuration
 Configuration 모델은 입력 그래프의 차수 시퀀스를 그대로 유지하면서 랜덤한 그래프를 생성
 각 노드는 자신의 차수만큼 stub를 가지고, 무작위 연결을 통해 엣지를 형성
 create_config_graph(): stub 리스트 생성 → 섞기 → 랜덤 매칭, self-loop 제거, multi-edge 제거
 예외 처리: 차수 합이 짝수인지 확인, 차수가 음수인지 확인
-#### 3. Chung-Lu
+### 3. Chung-Lu
 Chung-Lu 모델은 노드별 기대 차수를 유지하면서 그래프를 생성 
 두 노드 i와 j가 연결될 확률 P_ij는 두 노드의 차수의 곱에 비례
 create_chunglu_graph(): itertools.combinations를 사용하여 모든 노드 쌍을 순회하며 연결 확률을 계산
 1. 예외 처리: 차수 음수 여부 확인, 차수 합이 0이면 오류 처리, 최대 차수 곱으로 확률이 1 이상이 되는 경우 → Z 재조정
 2. 노드 쌍에 대해 확률적 연결 시도: 모든 노드 쌍 (i, j)에 대해 P_ij 계산, 난수 비교 후 엣지 생성
 3. 정규화 상수 Z: Z = total degree, 확률이 1 이상이 되는 경우 발생 → 이를 방지하기 위해 Z를 (최대차수 × 2번째 최대차수) + 0.1로 재설정하여 안정화
-#### 4. BA
+### 4. BA
 BA 모델은 우선 연결 기반 성장 모델로 새로운 노드는 기존 노드의 차수에 비례하여 연결 → Scale-free 네트워크 생성
 set_init_BA(): 초기 fully-connected m0 설정
 choose_target_node(): 차수 비례 확률로 노드 선택
